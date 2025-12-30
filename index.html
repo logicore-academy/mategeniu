@@ -30,8 +30,6 @@
             margin: 0;
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
         #app {
@@ -40,133 +38,87 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            -webkit-overflow-scrolling: touch;
         }
 
-        /* --- SCREENS --- */
-        .screen {
-            display: none;
-            padding: 20px;
-            max-width: 650px;
-            margin: 0 auto;
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 80px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .screen.active { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- UI ELEMENTS --- */
-        h1, h2 { text-align: center; margin: 10px 0 20px 0; font-weight: 700; }
-        h1 { font-size: 2.2rem; color: var(--primary); text-shadow: 2px 2px 0 rgba(0,0,0,0.05); }
-
-        .btn {
+        /* --- HEADER --- */
+        header {
             background: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            padding: 18px;
-            width: 100%;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #cbd5e0;
-            transition: all 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-family: 'Quicksand', sans-serif;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #cbd5e0;
-        }
-
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 6px 0 #38b2ac; }
-        .btn-primary:active { box-shadow: 0 3px 0 #38b2ac; }
-
-        .btn-secondary { background: var(--secondary); color: white; box-shadow: 0 6px 0 #dd6b20; }
-        .btn-secondary:active { box-shadow: 0 3px 0 #dd6b20; }
-
-        .btn-danger { background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; box-shadow: 0 6px 0 #fed7d7; }
-
-        .btn-op { border-left: 15px solid #ccc; text-align: left; justify-content: flex-start; padding-left: 25px; }
-        .btn-op.add { border-left-color: #48bb78; }
-        .btn-op.sub { border-left-color: #ed8936; }
-        .btn-op.mul { border-left-color: #f56565; }
-        .btn-op.mix { border-left-color: #667eea; }
-
-        /* --- GAME HUD --- */
-        .hud-top {
-            width: 100%;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
-        .score-badge {
-            background: white;
-            padding: 10px 20px;
-            border-radius: 50px;
             box-shadow: var(--shadow);
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--primary);
-            flex-grow: 1;
-            text-align: center;
-            cursor: pointer;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+            height: 70px;
         }
+        .user-info { font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; font-size: 1.2rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .btn-icon { background: var(--bg); border: none; font-size: 1.6rem; cursor: pointer; padding: 10px 15px; border-radius: 16px; transition: background 0.2s; display: flex; align-items: center; gap: 5px; }
+        .btn-icon:active { background: #e2e8f0; }
+        .icon-btn-text { font-size: 0.9rem; font-weight: bold; color: var(--text); }
 
-        .streak-container {
-            background: white;
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 90px;
-            justify-content: center;
-        }
+        /* --- SCREENS --- */
+        .screen { display: none; padding: 20px; max-width: 650px; margin: 0 auto; width: 100%; flex-direction: column; align-items: center; padding-bottom: 80px; animation: fadeIn 0.3s ease; }
+        .screen.active { display: flex; }
 
-        .streak-val { font-weight: 800; color: var(--fire); font-size: 1.2rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .question-card {
-            background: white;
+        h1, h2 { font-family: 'Quicksand', sans-serif; text-align: center; margin: 5px 0 15px 0; color: var(--text); font-weight: 700; }
+        h1 { font-size: 2rem; color: var(--primary); text-shadow: 1px 1px 0 #e2e8f0; }
+        
+        /* --- BUTTONS & INPUTS --- */
+        .input-name { padding: 20px; font-size: 1.4rem; border: 3px solid #cbd5e0; border-radius: 30px; width: 100%; text-align: center; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; color: var(--text); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .input-name::placeholder { color: #a0aec0; font-weight: 400; }
+
+        .btn { background: var(--white); border: 2px solid transparent; border-radius: var(--radius); padding: 20px; width: 100%; margin-bottom: 16px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.05); transition: transform 0.1s, box-shadow 0.1s; display: flex; align-items: center; justify-content: center; gap: 15px; color: var(--dark); text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn:active { transform: scale(0.98); box-shadow: none; }
+        .btn-op { border-left: 15px solid #ccc; padding-left: 10px; }
+        .btn-op.add { border-color: #48bb78; }
+        .btn-op.sub { border-color: #ed8936; }
+        .btn-op.mul { border-color: #f56565; }
+        .btn-op.mix { border-color: #667eea; }
+        .btn-act { background: var(--white); color: var(--dark); flex-direction: column; gap: 8px; height: auto; padding: 25px 20px;}
+        .btn-act span.desc { font-size: 1rem; font-weight: 500; color: #718096; }
+        .btn-lvl { background: var(--white); color: var(--dark); justify-content: center; padding: 20px; height: auto; border-radius: 20px; border: 2px solid #e2e8f0; text-align: center;}
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(79, 209, 197, 0.4); }
+        .btn-secondary { background: var(--secondary); color: white; box-shadow: 0 4px 10px rgba(246, 173, 85, 0.4); }
+        .btn-danger { background: #fff5f5; color: #e53e3e; border-color: #feb2b2; }
+
+        /* --- GAME AREA --- */
+        .timer-container { width: 100%; height: 10px; background: #e2e8f0; border-radius: 20px; margin-bottom: 20px; overflow: hidden; display: none; }
+        .timer-bar { height: 100%; background: var(--primary); width: 100%; transition: width 0.1s linear; }
+
+        .question { font-family: 'Quicksand', sans-serif; font-size: 4rem; text-align: center; margin: 5px 0 30px 0; color: var(--dark); font-weight: 800; min-height: 60px; transition: color 0.3s; text-shadow: 2px 2px 0 #e2e8f0; }
+
+        .score-badge { background: white; padding: 12px 25px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-weight: 800; font-size: 1.4rem; color: var(--primary); margin-bottom: 25px; border: 2px solid var(--bg); display: flex; align-items: center; gap: 10px; cursor: pointer;}
+
+        /* HUD COMPACT */
+        .hud-block {
             width: 100%;
-            padding: 40px 20px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
-            text-align: center;
-            position: relative;
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+        }
+
+        .streak-line { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .streak-header { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
+        .streak-text { font-size: 1.5rem; color: var(--fire); font-weight: 800; }
+        
+        /* Timer Seria */
+        .streak-timer-line {
+            width: 80px; 
+            height: 4px;
+            background: #fed7aa;
+            border-radius: 4px;
             overflow: hidden;
         }
-
-        .question-text { font-size: 3.5rem; font-weight: 800; color: var(--text); }
-
-        .streak-timer-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: #fed7aa;
-        }
-
         .streak-timer-fill {
             height: 100%;
             background: var(--fire);
@@ -174,622 +126,796 @@
             transition: width 0.1s linear;
         }
 
-        /* --- CONTROLS --- */
-        .grid-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
-        .quiz-btn {
-            height: 90px;
-            font-size: 2.2rem;
-            background: white;
-            border-radius: 20px;
-            border: none;
-            font-weight: 800;
-            box-shadow: 0 6px 0 #cbd5e0;
-            cursor: pointer;
-            font-family: 'Quicksand', sans-serif;
-            color: var(--text);
-            transition: all 0.1s;
-        }
-        .quiz-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #cbd5e0; }
+        .dots-container { display: flex; gap: 14px; justify-content: center; padding-top: 10px; border-top: 2px solid rgba(0,0,0,0.05); }
+        .dot { width: 20px; height: 20px; border-radius: 50%; background-color: #cbd5e0; transition: background-color 0.3s, transform 0.3s; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .dot.correct { background-color: var(--success); transform: scale(1.4); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .dot.wrong { background-color: var(--accent); transform: scale(1.4); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 
-        /* INPUT MODE */
-        .input-display { font-size: 3rem; font-weight: 800; color: var(--primary); min-height: 4.5rem; margin-bottom: 20px; border-bottom: 4px dashed #cbd5e0; padding: 0 20px; }
+        /* CONTROLS */
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
+        .quiz-btn { height: 100px; font-size: 2.8rem; background: white; border: 3px solid #e2e8f0; border-radius: var(--radius); font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Quicksand', sans-serif; box-shadow: 0 6px 0 #cbd5e0; }
+        .quiz-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        .input-box { width: 160px; height: 90px; background: white; border: 5px solid var(--primary); border-radius: 20px; margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; font-weight: bold; box-shadow: inset 0 3px 8px rgba(0,0,0,0.05); }
         .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; }
-        .key {
-            height: 65px;
-            background: white;
-            border: none;
-            border-radius: 18px;
-            font-size: 1.6rem;
-            font-weight: 700;
-            box-shadow: 0 5px 0 #cbd5e0;
-            font-family: 'Quicksand', sans-serif;
-            cursor: pointer;
+        .key { height: 75px; border-radius: 20px; border: none; background: white; font-size: 2.2rem; font-weight: 700; box-shadow: 0 5px 0 #cbd5e0; font-family: 'Quicksand', sans-serif; color: var(--text); }
+        .key:active { transform: translateY(4px); box-shadow: none; }
+        .key.submit { background: var(--primary); color: white; box-shadow: 0 5px 0 #38b2ac; }
+        .key.submit:active { box-shadow: 0 0 0 #38b2ac; }
+        .key.del { background: #fed7d7; color: #c53030; box-shadow: 0 5px 0 #feb2b2; }
+        .key.del:active { box-shadow: 0 0 0 #feb2b2; }
+
+        .tf-container { display: flex; gap: 25px; width: 100%; justify-content: center; }
+        .tf-btn { width: 150px; height: 150px; border-radius: 50%; border: none; font-size: 4.5rem; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
+        .tf-btn.true { background: #c6f6d5; color: #276749; border: 10px solid #48bb78; }
+        .tf-btn.false { background: #fed7d7; color: #9b2c2c; border: 10px solid #f56565; }
+        .tf-btn:active { transform: scale(0.9); }
+
+        /* TOAST */
+        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(0,0,0,0.85); color: white; padding: 20px 30px; border-radius: 25px; font-weight: bold; font-size: 1.6rem; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 150; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 80%; max-width: 300px; }
+        .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        
+        /* --- MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 200; }
+        .modal-content { background: white; width: 92%; max-width: 600px; padding: 25px; border-radius: 30px; text-align: center; animation: popIn 0.3s; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .emoji-huge { font-size: 5rem; display: block; }
+        .modal-msg { font-size: 1.3rem; font-weight: bold; line-height: 1.4; }
+        
+        /* --- STATISTICI (Design Jucărie) --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
+        @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } }
+
+        .stat-card { 
+            background: var(--white); 
+            padding: 20px; 
+            border-radius: var(--radius); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            text-align: left;
+            border-top: 6px solid #ccc; 
         }
-        .key:active { transform: translateY(3px); box-shadow: 0 2px 0 #cbd5e0; }
-        .key-ok { background: var(--success); color: white; box-shadow: 0 5px 0 #2f855a; }
+        .stat-card.add { border-top-color: #48bb78; background: #f0fff4; } 
+        .stat-card.sub { border-top-color: #ed8936; background: #fffaf0; } 
+        .stat-card.mul { border-top-color: #f56565; background: #fff5f5; } 
+        .stat-card.mix { border-top-color: #667eea; background: #f3e7ff; }
 
-        /* TRUE FALSE MODE */
-        .tf-container { display: flex; gap: 20px; width: 100%; }
-        .btn-tf { flex: 1; height: 120px; font-size: 3rem; }
-
-        /* --- PROGRESS DOTS --- */
-        .dots-container { display: flex; gap: 8px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
-        .dot { width: 14px; height: 14px; border-radius: 50%; background: #cbd5e0; transition: all 0.3s; }
-        .dot.current { transform: scale(1.3); box-shadow: 0 0 10px rgba(0,0,0,0.1); border: 2px solid white; }
-        .dot.correct { background: var(--success); }
-        .dot.wrong { background: var(--accent); }
-
-        /* --- STATS --- */
-        .stats-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); border-top: 8px solid #ccc; }
-        .stat-card.add { border-top-color: #48bb78; }
-        .stat-card.sub { border-top-color: #ed8936; }
-        .stat-card.mul { border-top-color: #f56565; }
-        .stat-card.mix { border-top-color: #667eea; }
-
-        .op-title { font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text); }
-        .level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 5px; }
+        .op-title { font-size: 1.2rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        
+        .level-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        
         .level-badge {
-            background: #f7fafc;
+            background: white;
             padding: 12px;
             border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
-            border: 1px solid #e2e8f0;
             position: relative;
             overflow: hidden;
         }
-        .lvl-name { font-size: 0.75rem; font-weight: 700; color: #718096; text-transform: uppercase; margin-bottom: 5px; }
-        .lvl-score { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-        .lvl-max { font-size: 0.8rem; color: #a0aec0; }
-        .lvl-progress { height: 4px; background: #edf2f7; width: 100%; margin-top: 8px; border-radius: 2px; }
-        .lvl-bar-fill { height: 100%; background: var(--primary); border-radius: 2px; }
-        .stats-info { font-size: 0.65rem; color: #a0aec0; margin-top: 5px; }
-
-        /* EMPTY STATE STATS */
-        .empty-state {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            width: 100%;
+        .level-badge::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 6px;
+            background: #ccc;
+            border-radius: 0 0 15px 15px;
         }
-        .emoji-huge { font-size: 5rem; display: block; margin-bottom: 15px; }
-        .empty-text { font-weight: 800; font-size: 1.4rem; color: var(--text); margin-bottom: 10px; }
-        .empty-sub { color: #718096; font-size: 1rem; margin-bottom: 25px; }
+        .lvl-easy::before { background: #48bb78; }
+        .lvl-medium::before { background: #ecc94b; }
+        .lvl-hard::before { background: #f56565; }
+        .lvl-mix::before { background: #667eea; }
 
-        /* --- MODALS --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-            backdrop-filter: blur(4px);
-        }
+        .lvl-name { font-size: 0.9rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 1px; }
+        .lvl-score { font-size: 1.3rem; font-weight: 800; color: var(--text); line-height: 1.1; }
+        .lvl-max { font-size: 0.8rem; color: #a0aec0; font-weight: 500; }
+        
+        .lvl-progress { width: 100%; height: 6px; background: #edf2f7; border-radius: 10px; margin-top: 4px; overflow: hidden; }
+        .lvl-bar-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; border-radius: 10px;}
+        
+        .stats-info { display: flex; justify-content: space-between; font-size: 0.85rem; color: #718096; margin-top: 2px; font-weight: 600; }
 
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 35px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        /* --- ISTORIC --- */
+        .history-nav { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 15px; }
+        .hist-btn { background: #edf2f7; border: none; padding: 12px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .hist-card { background: #f7fafc; padding: 20px; border-radius: 20px; margin-bottom: 20px; border-left: 8px solid #cbd5e0; text-align: left; }
+        .hist-card.correct { border-left-color: var(--success); background: #f0fff4; }
+        .hist-card.wrong { border-left-color: var(--accent); background: #fff5f5; }
+        .hist-q { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--dark); }
+        .hist-a { font-size: 1.3rem; color: #4a5568; font-weight: 500; }
+        .hist-status { font-weight: 700; font-size: 1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 18px;
-            background: #f7fafc;
-            border-radius: 15px;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-        .history-item.correct { border-left: 5px solid var(--success); }
-        .history-item.wrong { border-left: 5px solid var(--accent); }
+        /* --- SCOR FINAL MODAL --- */
+        .score-breakdown { background: #f7fafc; padding: 20px; border-radius: 20px; margin-bottom: 15px; text-align: left; border: 2px solid #e2e8f0; }
+        .score-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+        .score-total { border-top: 2px dashed #cbd5e0; padding-top: 15px; margin-top: 10px; font-weight: 800; font-size: 2.5rem; color: var(--primary); text-align: right; }
 
-        /* --- FEEDBACK --- */
-        #toast {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 25px 40px;
-            border-radius: 25px;
-            color: white;
-            font-weight: 800;
-            font-size: 2rem;
-            z-index: 2000;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            pointer-events: none;
-        }
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 30px; }
+        .empty-icon { font-size: 5rem; margin-bottom: 15px; display: block; filter: grayscale(1); opacity: 0.6; }
+        .empty-text { font-size: 1.4rem; font-weight: bold; color: #718096; margin-bottom: 10px; }
+        .empty-sub { font-size: 1rem; color: #a0aec0; margin-bottom: 25px; }
 
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1500;
-            display: none;
-        }
+        /* CONFETTI CANVAS */
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 300; display: none; }
 
-        /* --- UTILS --- */
-        .mb-10 { margin-bottom: 10px; }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
-
     <canvas id="confetti-canvas"></canvas>
-    <div id="toast"></div>
 
     <div id="app">
         <div id="screen-login" class="screen active">
-            <div style="font-size: 5rem; margin-bottom: 10px;">🦊</div>
-            <h1>MateGeniu</h1>
-            <p style="text-align:center; font-weight:600; color:#718096; margin-bottom:30px;">Pregătit pentru aventură?</p>
-            
-            <input type="text" id="inp-name" 
-                style="width:100%; padding:20px; font-size:1.4rem; border-radius:20px; border:3px solid #cbd5e0; text-align:center; margin-bottom:20px; font-family: 'Quicksand', sans-serif;" 
-                placeholder="Cum te cheamă?"
-                onkeypress="if(event.key==='Enter') login()">
-            
-            <button class="btn btn-primary" onclick="login()">⚡ ÎNCEPE ACUM</button>
+            <h1>🧮 MateGeniu</h1>
+            <p style="text-align: center; color: #718096; font-weight: 600; margin-top: 0;">Scrie numele tău pentru a începe!</p>
+            <input type="text" id="inp-name" class="input-name" placeholder="Numele tău" autocomplete="off" onkeypress="handleLoginKey(event)">
+            <button class="btn btn-primary" onclick="login()">⚡ INTRĂ ÎN JOC</button>
+            <div id="existing-users" style="margin-top: 20px; width: 100%;">
+                <p style="font-size: 1rem; text-align: center; color: #718096; font-weight: 600; margin-bottom: 10px;">👥 Jucători Recenți:</p>
+                <div id="user-list" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+            </div>
+            <button class="btn btn-danger" style="margin-top: 30px; font-size: 0.9rem; padding: 15px;" onclick="clearRecentUsers()">🗑️ Curăță Lista</button>
         </div>
 
         <div id="screen-menu" class="screen">
-            <h1 id="greet">Salut! 🚀</h1>
-            <p style="text-align:center; color:#718096; margin-bottom:25px;">Ce exersăm astăzi?</p>
-            
-            <button class="btn btn-op add" onclick="selectOp('add')"><span>➕</span> Adunare</button>
-            <button class="btn btn-op sub" onclick="selectOp('sub')"><span>➖</span> Scădere</button>
-            <button class="btn btn-op mul" onclick="selectOp('mul')"><span>✖️</span> Înmulțire</button>
-            <button class="btn btn-op mix" onclick="selectOp('mix')"><span>🎲</span> Mixte</button>
-            
-            <button class="btn" style="background:#edf2f7; margin-top:20px;" onclick="showStats()">📊 STATISTICI</button>
-            <button class="btn btn-danger" style="font-size:0.9rem; padding:10px; margin-top:10px;" onclick="logout()">🚪 Ieșire</button>
+            <h1><span id="greeting-text">Salut</span>, <span id="display-name">Elev</span>! 🚀</h1>
+            <p style="text-align: center; color: #666; font-weight: 600;">Ce exercițiu facem azi?</p>
+            <button class="btn btn-op add" onclick="selectOp('add')">➕ Adunare</button>
+            <button class="btn btn-op sub" onclick="selectOp('sub')">➖ Scădere</button>
+            <button class="btn btn-op mul" onclick="selectOp('mul')">✖️ Înmulțire</button>
+            <button class="btn btn-op mix" onclick="selectOp('mix')">🎲 Mixte</button>
+            <button class="btn" style="margin-top: 20px; background: white;" onclick="showStats()">📊 VEZI STATISTICILE</button>
+            <button class="btn btn-danger" style="background: white; border: 1px solid red; color: red; margin-top: 5px; font-size: 0.9rem; padding: 15px;" onclick="switchUser()">🚪 SCHIMBĂ ELEV</button>
         </div>
 
-        <div id="screen-act" class="screen">
-            <h2>Alege cum vrei să răspunzi</h2>
-            <button class="btn" onclick="selectAct('quiz')">⚡ Viteză (4 variante)</button>
-            <button class="btn" onclick="selectAct('input')">✍️ Scrie răspunsul</button>
-            <button class="btn" onclick="selectAct('tf')">✔️ Adevărat / Fals</button>
-            
-            <button class="btn btn-secondary" style="margin-top:20px;" onclick="showScreen('screen-menu')">ÎNAPOI</button>
+        <div id="screen-activity" class="screen">
+            <h2 id="op-title">Adunare</h2>
+            <button class="btn btn-act" onclick="checkResume('quiz')">
+                ⚡ Viteză (4 variante)
+                <span class="desc">Contracronometru</span>
+            </button>
+            <button class="btn btn-act" onclick="checkResume('input')">
+                ✍️ Scrie Răspunsul
+                <span class="desc">Fără timp de joc</span>
+            </button>
+            <button class="btn btn-act" onclick="checkResume('tf')">
+                ✔️ Adevărat sau Fals
+                <span class="desc">Decizie rapidă</span>
+            </button>
+            <button class="btn btn-secondary" style="margin-top: 20px;" onclick="showScreen('screen-menu')">⬅ ÎNAPOI LA MENIU</button>
         </div>
 
-        <div id="screen-lvl" class="screen">
-            <h2 id="lvl-title">Nivelul de dificultate</h2>
-            <button class="btn" onclick="startGame('easy')">🟢 Ușor (0-10)</button>
-            <button class="btn" onclick="startGame('medium')">🟡 Mediu (0-30)</button>
-            <button class="btn" onclick="startGame('hard')">🔴 Avansat (0-100)</button>
-            
-            <button class="btn btn-secondary" style="margin-top:20px;" onclick="showScreen('screen-act')">ÎNAPOI</button>
+        <div id="screen-level" class="screen">
+            <h2>Alege Nivelul</h2>
+            <button class="btn btn-lvl" onclick="startGame('easy')">
+                <span>🟢 Ușor (Încălzire)</span>
+            </button>
+            <button class="btn btn-lvl" onclick="startGame('medium')">
+                <span>🟡 Mediu (Antrenament)</span>
+            </button>
+            <button class="btn btn-lvl" onclick="startGame('hard')">
+                <span>🔴 Avansat (Campion)</span>
+            </button>
+            <button class="btn btn-lvl" style="border-left-color: #805ad5;" onclick="startGame('mix')">
+                <span>🟣 Testare Mixtă</span>
+            </button>
+            <button class="btn btn-secondary" style="margin-top: 20px;" onclick="showScreen('screen-activity')">⬅ ÎNAPOI</button>
         </div>
 
-        <div id="screen-game" class="screen">
-            <div class="hud-top">
-                <div class="score-badge" onclick="showHistoryModal()">⭐ Scor: <span id="g-score">0</span></div>
-                <div class="streak-container">
-                    <span>🔥</span>
-                    <span class="streak-val" id="g-streak">x0</span>
-                </div>
+        <div id="screen-game" class="screen" style="position: relative;">
+            <button class="btn-icon" onclick="pauseGame()">⏸</button>
+            
+            <div class="timer-container" id="timer-box"><div class="timer-bar" id="timer-bar"></div></div>
+
+            <div class="score-badge" onclick="showHistoryModal()">
+                ⭐ <span id="g-score">0</span>
+                <span style="font-size: 0.9rem; color: var(--text); font-weight: 500; margin-left: 8px;">(Max <span id="g-max-score">120</span>)</span>
+                <span style="font-size: 1.2rem; color: #a0aec0; margin-left: auto;">📝</span>
             </div>
 
-            <div class="question-card">
-                <div class="question-text" id="g-q">2 + 2 = ?</div>
-                <div class="streak-timer-line" id="st-line"><div class="streak-timer-fill" id="st-fill"></div></div>
+            <div class="question" id="g-question">2 + 2 = ?</div>
+            
+            <div class="toast" id="toast-msg">
+                <div id="toast-text">Corect!</div>
+                <div id="toast-sub" style="font-size: 1rem; margin-top: 5px; font-weight: 400; color: #ccc;"></div>
             </div>
 
-            <div id="g-ctrl" style="width:100%">
-                </div>
+            <div id="game-controls"></div>
 
-            <div class="dots-container" id="g-dots"></div>
+            <div class="hud-block">
+                <div class="streak-line">
+                    <div class="streak-header">
+                        <div class="streak-text" id="g-streak">🔥 x0</div>
+                    </div>
+                    <div class="streak-timer-line">
+                        <div class="streak-timer-fill" id="streak-bar"></div>
+                    </div>
+                </div>
+                <div class="dots-container" id="dots-container"></div>
+            </div>
         </div>
 
         <div id="screen-stats" class="screen">
-            <h1>📊 Tablou de Onoare</h1>
-            <div id="stats-container" class="stats-container"></div>
+            <h2 style="font-size: 1.8rem;">📊 Tablou de Onoare</h2>
+            <div id="stats-container" class="stats-grid"></div>
+            <button class="btn btn-primary" onclick="showScreen('screen-menu')" style="margin-top: 30px;">⚡ Mergi la Meniu</button>
+            <br>
+            <button class="btn btn-danger" onclick="resetProgress()">⚠️ Șterge Tot Progresul</button>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modal-gameover">
+        <div class="modal-content">
+            <span class="emoji-huge">🏆</span>
+            <div class="modal-msg">Joc Terminat!</div>
             
-            <button id="btn-stats-back" class="btn btn-primary" onclick="showScreen('screen-menu')" style="margin-top:20px;">🏠 MERGI LA MENIU</button>
-            <button id="btn-stats-reset" class="btn btn-danger" onclick="resetProgress()">⚠️ ȘTERGE TOT PROGRESUL</button>
+            <div class="score-breakdown" id="score-breakdown">
+                <div class="score-row">⭐ Bază (Corect): <span id="sb-base" style="color: var(--text);">0</span></div>
+                <div class="score-row">🔥 Bonus Seria: <span id="sb-bonus" style="color: var(--secondary);">+0</span></div>
+                <div class="score-total">Total: <span id="sb-total" style="color: var(--primary);">0</span></div>
+            </div>
+
+            <h3 id="final-score-text" style="margin: 0; font-size: 2.5rem; color: var(--primary);">0</h3>
+            <p style="margin: 0; color: #718096; font-weight: 600;">Puncte obținute</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" onclick="closeModal('modal-gameover'); showStats();">📊 Vezi Statistici</button>
+                <button class="btn btn-secondary" onclick="closeModal('modal-gameover'); showScreen('screen-menu');">🏠 Meniu Principal</button>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="main-modal">
-        <div class="modal-content" id="modal-body">
+    <div class="modal-overlay" id="modal-resume">
+        <div class="modal-content">
+            <span class="emoji-huge">⏳</span>
+            <div class="modal-msg">Joc Neterminat!</div>
+            <p style="font-weight: 600; color: #718096;">Vrei să continui?</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" onclick="resumeExisting()">Continuă</button>
+                <button class="btn btn-secondary" onclick="startFresh()">Începe de la zero</button>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-history">
+        <div class="modal-content" style="text-align: left; max-width: 500px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; font-family: 'Quicksand', sans-serif; font-size: 1.5rem;">📝 Istoric Joc</h3>
+                <button onclick="closeModal('modal-history')" style="background: none; border: none; font-size: 1.5rem;">✖</button>
+            </div>
+            
+            <div id="history-viewer">
+                <div class="hist-card" id="hist-card-content">
+                    </div>
+                <div class="history-nav">
+                    <button class="hist-btn" onclick="navHistory(-1)" id="btn-prev">⬅</button>
+                    <span id="hist-counter" style="font-weight: 800; font-size: 1rem; color: var(--text);">1 / 10</span>
+                    <button class="hist-btn" onclick="navHistory(1)" id="btn-next">➡</button>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeModal('modal-history')">Închide</button>
+        </div>
     </div>
 
     <script>
-        const DB_KEY = 'MateGeniu_V2024_03';
+        // --- STATE ---
+        const DB_KEY = 'mateGeniu_V16_FINAL';
         let state = {
-            user: '',
-            op: '',
-            act: '',
-            lvl: '',
-            score: 0,
-            qIdx: 0,
-            questions: [],
-            history: [],
-            streak: 0,
-            streakTime: 5, // secunde pentru streak timer
-            timer: null,
-            inputVal: '',
-            dots: []
+            user: null, op: null, act: null, lvl: null,
+            questions: [], qIdx: 0, score: 0,
+            timer: null, timeLeft: 0, inputVal: "",
+            dotsHistory: [], streak: 0,
+            currentIsStatementCorrect: null,
+            streakTimeLeft: 0, streakTimeMax: 0,
+            correctCount: 0,
+            coeff: 0,
+            history: []
         };
+        let pendingAction = null;
+        let historyIndex = 0;
 
-        // --- UTILS ---
+        window.onload = () => { renderUserList(); };
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
         }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        function showModal() { document.getElementById('main-modal').style.display = 'flex'; }
-        function hideModal() { document.getElementById('main-modal').style.display = 'none'; }
-
-        function showToast(msg, color) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.style.background = color;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 900);
-        }
-
-        // --- CORE LOGIC ---
+        // --- USER SYSTEM ---
         function login() {
             const name = document.getElementById('inp-name').value.trim();
-            if(!name) return;
+            if (!name) return alert("Scrie un nume!");
             state.user = name;
+            document.getElementById('display-name').textContent = name;
             
             // Salut dinamic
             const hr = new Date().getHours();
-            let greet = "Bună!";
-            if(hr < 12) greet = "Bună dimineața";
-            else if(hr < 18) greet = "Bună ziua";
-            else greet = "Bună seara";
-            
-            document.getElementById('greet').textContent = `${greet}, ${name}! 🚀`;
+            let greet = "Salut";
+            if(hr >= 5 && hr < 12) greet = "Bună dimineața";
+            else if(hr >= 12 && hr < 18) greet = "Bună ziua";
+            else if(hr >= 18) greet = "Bună seara";
+            document.getElementById('greeting-text').textContent = greet;
+
+            saveUser(name);
+            showScreen('screen-menu');
+        }
+        function handleLoginKey(e) { if(e.key === 'Enter') login(); }
+        function loadUser(name) { document.getElementById('inp-name').value = name; login(); }
+        function saveUser(name) {
+            const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+            data['lastUsers'] = data['lastUsers'] || [];
+            if (!data['lastUsers'].includes(name)) { data['lastUsers'].unshift(name); if (data['lastUsers'].length > 5) data['lastUsers'].pop(); }
+            localStorage.setItem(DB_KEY, JSON.stringify(data));
+        }
+        function clearRecentUsers() {
+            if (confirm("Ești sigur că vrei să ștergi lista de jucători recenți?")) {
+                const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+                d['lastUsers'] = [];
+                localStorage.setItem(DB_KEY, JSON.stringify(d));
+                renderUserList();
+            }
+        }
+        function renderUserList() {
+            const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+            const list = document.getElementById('user-list'); list.innerHTML = '';
+            if (d['lastUsers']) d['lastUsers'].forEach(u => {
+                let totalPts = 0;
+                if (d[u]) {
+                    const userData = d[u];
+                    Object.keys(userData).forEach(key => {
+                        if (userData[key] && userData[key].totalScore) totalPts += userData[key].totalScore;
+                    });
+                }
+                const b = document.createElement('div');
+                b.style.cssText = "display: flex; flex-direction: column; align-items: center; gap: 5px;";
+                const btn = document.createElement('button');
+                btn.textContent = u;
+                btn.style.cssText = "padding: 12px 25px; border-radius: 30px; border: 2px solid #cbd5e0; background: white; font-weight: 700; font-size: 1.1rem; color: var(--text); box-shadow: 0 3px 10px rgba(0,0,0,0.05);";
+                btn.onclick = () => loadUser(u);
+                const score = document.createElement('span');
+                score.textContent = `${totalPts} puncte`;
+                score.style.cssText = "font-size: 0.8rem; font-weight: bold; color: #a0aec0;";
+                b.appendChild(btn); b.appendChild(score);
+                list.appendChild(b);
+            });
+        }
+        function logout() { showScreen('screen-login'); state.user = null; }
+        function resetProgress() {
+            if (confirm("Sigur ștergi tot progresul acestui elev?")) {
+                const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+                delete d[state.user];
+                localStorage.setItem(DB_KEY, JSON.stringify(d));
+                showScreen('screen-menu');
+            }
+        }
+
+        // --- NAVIGATION ---
+        function selectOp(op) {
+            state.op = op;
+            const t = { 'add': '➕ Adunare', 'sub': '➖ Scădere', 'mul': '✖️ Înmulțire', 'mix': '🎲 Mixte' };
+            document.getElementById('op-title').textContent = t[op];
+            showScreen('screen-activity');
+        }
+        function selectAct(act) {
+            state.act = act;
+            showScreen('screen-level');
+        }
+        function checkResume(act) {
+            state.act = act;
+            const key = `session_${state.user}`;
+            const saved = JSON.parse(localStorage.getItem(key) || 'null');
+            if (saved && saved.act === act && saved.qIdx < 10) {
+                pendingAction = saved;
+                document.getElementById('modal-resume').style.display = 'flex';
+            } else {
+                selectAct(act);
+            }
+        }
+        function resumeExisting() {
+            closeModal('modal-resume');
+            state = { ...state, ...pendingAction }; pendingAction = null;
+            setupTimersUI();
+            showScreen('screen-game'); 
+            loadQuestion(); 
+        }
+        function startFresh() {
+            closeModal('modal-resume');
+            localStorage.removeItem(`session_${state.user}`);
+            selectAct(state.act);
+        }
+        function startGame(lvl) {
+            localStorage.removeItem(`session_${state.user}`);
+            state.lvl = lvl; state.score = 0; state.qIdx = 0; state.questions = generateQuestions(); state.inputVal = ""; state.dotsHistory = []; state.streak = 0; state.history = []; state.correctCount = 0;
+
+            if (lvl === 'easy') state.coeff = 2;
+            else if (lvl === 'medium') state.coeff = 4;
+            else if (lvl === 'hard') state.coeff = 6;
+            else state.coeff = 5;
+
+            setupTimersUI();
+            showScreen('screen-game'); loadQuestion();
+        }
+        function pauseGame() {
+            clearInterval(state.timer);
+            const d = { op: state.op, act: state.act, lvl: state.lvl, questions: state.questions, qIdx: state.qIdx, score: state.score, dotsHistory: state.dotsHistory, streak: state.streak, correctCount: state.correctCount, coeff: state.coeff, history: state.history };
+            localStorage.setItem(`session_${state.user}`, JSON.stringify(d));
             showScreen('screen-menu');
         }
 
-        function logout() {
-            document.getElementById('inp-name').value = '';
-            showScreen('screen-login');
-        }
-
-        function selectOp(op) { state.op = op; showScreen('screen-act'); }
-        function selectAct(act) { state.act = act; showScreen('screen-lvl'); }
-
-        function startGame(lvl) {
-            state.lvl = lvl;
-            state.score = 0;
-            state.qIdx = 0;
-            state.history = [];
-            state.streak = 0;
-            state.dots = [];
-            
-            // Generăm 10 întrebări
-            state.questions = Array.from({length: 10}, () => generateQuestion());
-            
-            showScreen('screen-game');
-            loadQuestion();
-        }
-
-        function generateQuestion() {
-            let op = state.op;
-            if(op === 'mix') op = ['add', 'sub', 'mul'][Math.floor(Math.random() * 3)];
-            
-            let n1, n2, ans;
-            let maxVal = state.lvl === 'easy' ? 10 : (state.lvl === 'medium' ? 30 : 100);
-
-            if(op === 'mul') {
-                n1 = Math.floor(Math.random() * 10);
-                n2 = Math.floor(Math.random() * 10);
-            } else {
-                n1 = Math.floor(Math.random() * maxVal);
-                n2 = Math.floor(Math.random() * maxVal);
-                if(op === 'sub' && n1 < n2) [n1, n2] = [n2, n1];
+        // --- MATH ---
+        function generateQuestions() {
+            const q = [];
+            let max = 10; if (state.lvl === 'easy') max = 5; if (state.lvl === 'medium') max = 8;
+            for (let i = 0; i < 10; i++) {
+                let op = state.op; let n1, n2, ans;
+                if (op === 'mix') { op = ['add', 'sub', 'mul'][Math.floor(Math.random() * 3)]; }
+                if (op === 'mul') {
+                    let mMax = max; n1 = Math.floor(Math.random() * mMax) + 1; n2 = Math.floor(Math.random() * 9) + 1; ans = n1 * n2;
+                } else {
+                    let range = max * 2; n1 = Math.floor(Math.random() * range) + 1; n2 = Math.floor(Math.random() * range) + 1;
+                    if (op === 'sub') { if (n1 < n2) [n1, n2] = [n2, n1]; ans = n1 - n2; } else { ans = n1 + n2; }
+                }
+                q.push({ n1, n2, op, ans });
             }
-
-            if(op === 'add') ans = n1 + n2;
-            else if(op === 'sub') ans = n1 - n2;
-            else ans = n1 * n2;
-
-            return { n1, n2, op, ans };
+            return q;
         }
 
+        // --- TIMER UI SETUP ---
+        function setupTimersUI() {
+            let showMainTimer = (state.act === 'quiz' || state.act === 'tf');
+            if (state.act === 'input') showMainTimer = false;
+            
+            document.getElementById('timer-box').style.display = showMainTimer ? 'block' : 'none';
+            const maxScore = 100 + (10 * state.coeff);
+            document.getElementById('g-max-score').textContent = maxScore;
+
+            let sTime = 5; if (state.lvl === 'medium') sTime = 3.5; if (state.lvl === 'hard') sTime = 2; if (state.lvl === 'mix') sTime = 3;
+            state.streakTimeMax = sTime;
+        }
+
+        // --- GAMEPLAY ---
         function loadQuestion() {
-            if(state.qIdx >= 10) return finishGame();
-            
             const q = state.questions[state.qIdx];
-            const opSym = { 'add': '+', 'sub': '-', 'mul': '×' }[q.op];
-            
-            // Update HUD
+            const opS = q.op === 'add' ? '+' : (q.op === 'sub' ? '-' : '×');
+            document.getElementById('g-question').textContent = `${q.n1} ${opS} ${q.n2} = ?`;
+            document.getElementById('g-question').style.color = 'var(--dark)';
             document.getElementById('g-score').textContent = state.score;
-            document.getElementById('g-streak').textContent = `x${state.streak}`;
+            updateStreakUI();
+
+            state.inputVal = "";
+            const c = document.getElementById('game-controls'); c.innerHTML = '';
             renderDots();
 
-            // Setup Timer vizibilitate
-            document.getElementById('st-line').style.display = (state.act === 'input' ? 'none' : 'block');
+            if (state.timer) clearInterval(state.timer);
 
-            const ctrl = document.getElementById('g-ctrl');
-            ctrl.innerHTML = '';
-            state.inputVal = '';
+            state.streakTimeLeft = state.streakTimeMax;
 
-            // Setup Question Text & Controls
-            if(state.act === 'tf') {
-                const isCorrectVal = Math.random() > 0.5;
-                const displayAns = isCorrectVal ? q.ans : q.ans + (Math.floor(Math.random() * 5) + (Math.random() > 0.5 ? 1 : -1));
-                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ${Math.max(0, displayAns)}`;
-                
-                ctrl.innerHTML = `
-                    <div class="tf-container">
-                        <button class="btn btn-tf" style="background:#c6f6d5; box-shadow:0 6px 0 #9ae6b4;" onclick="checkAnswer(true === ${isCorrectVal})">✔️</button>
-                        <button class="btn btn-tf" style="background:#fed7d7; box-shadow:0 6px 0 #feb2b2;" onclick="checkAnswer(false === ${isCorrectVal})">❌</button>
-                    </div>
-                `;
-            } 
-            else if(state.act === 'quiz') {
-                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ?`;
-                let options = [q.ans];
-                while(options.length < 4) {
-                    let r = q.ans + (Math.floor(Math.random() * 10) - 5);
-                    if(r >= 0 && !options.includes(r)) options.push(r);
-                }
-                options.sort(() => Math.random() - 0.5);
-                
-                let grid = document.createElement('div');
-                grid.className = 'grid-answers';
-                options.forEach(opt => {
-                    const b = document.createElement('button');
-                    b.className = 'quiz-btn';
-                    b.textContent = opt;
-                    b.onclick = () => checkAnswer(opt === q.ans);
-                    grid.appendChild(b);
-                });
-                ctrl.appendChild(grid);
-            }
-            else { // INPUT MODE
-                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ?`;
-                ctrl.innerHTML = `
-                    <div style="display:flex; flex-direction:column; align-items:center;">
-                        <div class="input-display" id="in-val">?</div>
-                        <div class="keypad">
-                            ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" onclick="pressKey('${n}')">${n}</button>`).join('')}
-                            <button class="key" style="color:var(--accent)" onclick="pressKey('C')">C</button>
-                            <button class="key" onclick="pressKey('0')">0</button>
-                            <button class="key key-ok" onclick="pressKey('OK')">OK</button>
-                        </div>
-                    </div>
-                `;
-            }
+            let mainLimit = 8; if (state.lvl === 'medium') mainLimit = 5; if (state.lvl === 'hard') mainLimit = 3; if (state.lvl === 'mix') mainLimit = 4;
+            state.timeLeft = mainLimit;
 
-            if(state.act !== 'input') startStreakTimer();
-        }
-
-        function pressKey(k) {
-            const disp = document.getElementById('in-val');
-            if(k === 'C') state.inputVal = '';
-            else if(k === 'OK') {
-                if(state.inputVal === '') return;
-                checkAnswer(parseInt(state.inputVal) === state.questions[state.qIdx].ans);
-                return;
-            } else {
-                if(state.inputVal.length < 3) state.inputVal += k;
-            }
-            disp.textContent = state.inputVal || '?';
-        }
-
-        function startStreakTimer() {
-            if(state.timer) clearInterval(state.timer);
-            let time = 5;
-            const bar = document.getElementById('st-fill');
-            bar.style.width = '100%';
-            
             state.timer = setInterval(() => {
-                time -= 0.1;
-                bar.style.width = (time * 20) + '%';
-                if(time <= 0) {
+                state.timeLeft -= 0.1;
+                state.streakTimeLeft -= 0.1;
+
+                if (state.act === 'quiz' || state.act === 'tf') {
+                    updateTimerBar(state.timeLeft, mainLimit, 'timer-bar');
+                }
+                updateStreakBar(state.streakTimeLeft, state.streakTimeMax);
+
+                if ((state.act === 'quiz' || state.act === 'tf') && state.timeLeft <= 0) {
+                    handleTimeOut();
+                    return;
+                }
+                if (state.streakTimeLeft <= 0 && state.streak > 0) {
                     state.streak = 0;
-                    document.getElementById('g-streak').textContent = 'x0';
-                    clearInterval(state.timer);
+                    updateStreakUI();
                 }
             }, 100);
+
+            if (state.act === 'quiz') renderQuiz(q.ans);
+            else if (state.act === 'input') renderInput();
+            else if (state.act === 'tf') renderTF(q);
         }
 
-        function checkAnswer(isWin) {
-            clearInterval(state.timer);
-            const q = state.questions[state.qIdx];
-            
-            state.history.push({ q: `${q.n1} ${q.op==='add'?'+':q.op==='sub'?'-':'×'} ${q.n2}`, ans: q.ans, win: isWin });
-            state.dots.push(isWin);
+        function updateTimerBar(cur, max, barId) {
+            const pct = (cur / max) * 100;
+            const b = document.getElementById(barId);
+            b.style.width = `${pct}%`;
+            b.style.background = pct < 30 ? '#f56565' : (pct < 60 ? '#ecc94b' : '#4fd1c5');
+        }
+        function updateStreakBar(cur, max) {
+            const pct = (cur / max) * 100;
+            const b = document.getElementById('streak-bar');
+            b.style.width = `${pct}%`;
+        }
+        function updateStreakUI() {
+            const el = document.getElementById('g-streak');
+            el.textContent = `🔥 x${state.streak}`;
+            el.style.opacity = state.streak > 0 ? 1 : 0.5;
+        }
+        function handleTimeOut() { clearInterval(state.timer); processAnswer(false, true); }
 
-            if(isWin) {
-                state.streak++;
-                state.score += (10 * state.streak);
-                showToast("Corect! 🌟", "#48bb78");
-            } else {
-                state.streak = 0;
-                showToast("Greșit! ❌", "#fc8181");
+        function renderQuiz(ans) {
+            const c = document.getElementById('game-controls'); c.className = 'grid-4';
+            let opts = [ans]; while (opts.length < 4) { let f = ans + Math.floor(Math.random() * 10) - 5; if (f > 0 && !opts.includes(f)) opts.push(f); }
+            opts.sort(() => Math.random() - 0.5);
+            opts.forEach(o => {
+                const b = document.createElement('div'); b.className = 'quiz-btn'; b.textContent = o; b.onclick = () => checkAnswer(o); c.appendChild(b);
+            });
+        }
+        function renderInput() {
+            const c = document.getElementById('game-controls');
+            const box = document.createElement('div'); box.className = 'input-box'; box.id = 'inp-display'; box.textContent = "?"; c.appendChild(box);
+            const pad = document.createElement('div'); pad.className = 'keypad';
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 'del', 0, 'ok'].forEach(k => {
+                const b = document.createElement('button'); b.className = `key ${k === 'ok' ? 'submit' : (k === 'del' ? 'del' : '')}`;
+                b.textContent = k === 'ok' ? '➔' : (k === 'del' ? '⌫' : k); b.onclick = () => handleInput(k); pad.appendChild(b);
+            });
+            c.appendChild(pad);
+        }
+        function handleInput(k) {
+            if (k === 'del') state.inputVal = state.inputVal.slice(0, -1);
+            else if (k === 'ok') { if (state.inputVal !== "") checkAnswer(parseInt(state.inputVal)); }
+            else { if (state.inputVal.length < 3) state.inputVal += k; }
+            document.getElementById('inp-display').textContent = state.inputVal === "" ? "?" : state.inputVal;
+        }
+        function renderTF(q) {
+            const c = document.getElementById('game-controls'); c.className = 'tf-container';
+            const isCorrectStatement = Math.random() > 0.5;
+            state.currentIsStatementCorrect = isCorrectStatement;
+            const displayVal = isCorrectStatement ? q.ans : q.ans + (Math.floor(Math.random() * 3) + 1) * (Math.random() < 0.5 ? 1 : -1);
+            if (displayVal <= 0 || displayVal === q.ans) { state.currentIsStatementCorrect = true; }
+            const opS = q.op === 'add' ? '+' : (q.op === 'sub' ? '-' : '×');
+            document.getElementById('g-question').textContent = `${q.n1} ${opS} ${q.n2} = ${displayVal}`;
+            const bT = document.createElement('button'); bT.className = 'tf-btn true'; bT.innerHTML = '✔️'; bT.onclick = () => checkAnswer(true);
+            const bF = document.createElement('button'); bF.className = 'tf-btn false'; bF.innerHTML = '❌'; bF.onclick = () => checkAnswer(false);
+            c.appendChild(bT); c.appendChild(bF);
+        }
+
+        // --- HISTORY SYSTEM ---
+        function addToHistory(w, userVal, correctVal) {
+            const q = state.questions[state.qIdx];
+            const opS = q.op === 'add' ? '+' : (q.op === 'sub' ? '-' : '×');
+            state.history.push({
+                qText: `${q.n1} ${opS} ${q.n2}`,
+                uVal: userVal,
+                cVal: correctVal,
+                correct: w
+            });
+        }
+        function showHistoryModal() {
+            historyIndex = state.history.length - 1;
+            if (historyIndex < 0) historyIndex = 0;
+            renderHistoryCard();
+            document.getElementById('modal-history').style.display = 'flex';
+        }
+        function renderHistoryCard() {
+            const el = document.getElementById('hist-card-content');
+            const counter = document.getElementById('hist-counter');
+            const btnNext = document.getElementById('btn-next');
+            const btnPrev = document.getElementById('btn-prev');
+
+            if (state.history.length === 0) {
+                el.innerHTML = '<p style="text-align: center; font-size: 1.1rem; color: #718096;">Nu ai răspuns la nicio întrebare încă.</p>';
+                counter.textContent = '0 / 10';
+                btnNext.disabled = true;
+                btnPrev.disabled = true;
+                return;
             }
 
+            const h = state.history[historyIndex];
+            el.className = `hist-card ${h.correct ? 'correct' : 'wrong'}`;
+            el.innerHTML = `
+                <div class="hist-status">${h.correct ? '✅ CORECT' : '❌ GREȘIT'}</div>
+                <div class="hist-q">${h.qText} = ?</div>
+                <div class="hist-a">Tu: <b>${h.uVal}</b> ${h.correct ? '' : `| Corect: ${h.cVal}`}</div>
+            `;
+
+            counter.textContent = `${historyIndex + 1} / ${state.history.length}`;
+            btnPrev.disabled = historyIndex === 0;
+            btnNext.disabled = historyIndex === state.history.length - 1;
+        }
+        function navHistory(dir) {
+            historyIndex += dir;
+            renderHistoryCard();
+        }
+
+        // --- FEEDBACK & LOGIC ---
+        function checkAnswer(u) {
+            if (state.timer) clearInterval(state.timer);
+            let w = false;
+            let userValText = u;
+
+            if (state.act === 'tf') {
+                w = u === state.currentIsStatementCorrect;
+                userValText = u ? 'Adevărat' : 'Fals';
+            } else if (state.act === 'input') {
+                const c = state.questions[state.qIdx].ans;
+                w = u === c;
+            } else {
+                const c = state.questions[state.qIdx].ans;
+                w = u === c;
+            }
+            processAnswer(w, false, userValText);
+        }
+
+        function processAnswer(w, isTimeout = false, userValText = "?") {
+            const c = state.questions[state.qIdx].ans;
+            const t = document.getElementById('toast-msg');
+            const txt = document.getElementById('toast-text');
+            const sub = document.getElementById('toast-sub');
+            const qBox = document.getElementById('g-question');
+
+            addToHistory(w, userValText, c);
+
+            if (isTimeout) {
+                txt.textContent = "Timpul a expirat!"; sub.textContent = `Era ${c}`; qBox.style.color = "#ccc";
+                w = false; state.streak = 0;
+            } else if (w) {
+                if (state.streakTimeLeft > 0) state.streak++; else state.streak = 1;
+                state.correctCount++;
+                state.score = (state.correctCount * 10) + (state.streak * state.coeff);
+                txt.textContent = "Corect! 🌟"; sub.textContent = `Serie: x${state.streak}`; qBox.style.color = "var(--success)";
+            } else {
+                state.streak = 0;
+                txt.textContent = "Greșit!";
+                const opS = state.questions[state.qIdx].op === 'add' ? '+' : (state.questions[state.qIdx].op === 'sub' ? '-' : '×');
+                sub.textContent = `${state.questions[state.qIdx].n1} ${opS} ${state.questions[state.qIdx].n2} = ${c}`;
+                qBox.style.color = "var(--accent)";
+            }
+
+            updateStreakUI();
+            state.dotsHistory.push(w);
+            renderDots();
+
+            t.classList.add('show');
             setTimeout(() => {
+                t.classList.remove('show');
+                qBox.style.color = "var(--dark)";
                 state.qIdx++;
-                loadQuestion();
-            }, 1000);
+                if (state.qIdx < 10) loadQuestion(); else finishGame();
+            }, 1200);
         }
 
         function renderDots() {
-            const container = document.getElementById('g-dots');
-            container.innerHTML = '';
-            for(let i=0; i<10; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                if(i === state.qIdx) dot.classList.add('current');
-                if(state.dots[i] === true) dot.classList.add('correct');
-                else if(state.dots[i] === false) dot.classList.add('wrong');
-                container.appendChild(dot);
+            const c = document.getElementById('dots-container'); c.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const d = document.createElement('div'); d.className = 'dot';
+                if (i < state.dotsHistory.length) d.classList.add(state.dotsHistory[i] ? 'correct' : 'wrong');
+                c.appendChild(d);
             }
         }
 
         function finishGame() {
-            saveGameData();
-            const body = document.getElementById('modal-body');
-            body.innerHTML = `
-                <div style="font-size: 4rem;">🏆</div>
-                <h2>Bravo, ${state.user}!</h2>
-                <div style="font-size: 1.2rem; margin-bottom: 20px;">Ai terminat jocul cu un scor de:</div>
-                <div style="font-size: 3.5rem; font-weight: 800; color: var(--primary); margin-bottom: 30px;">${state.score}</div>
-                
-                <button class="btn btn-primary" onclick="hideModal(); showStats();">📊 VEZI STATISTICI</button>
-                <button class="btn btn-secondary" onclick="hideModal(); showScreen('screen-menu')">🏠 MENIU PRINCIPAL</button>
-            `;
-            showModal();
-            if(state.score > 50) triggerConfetti();
+            localStorage.removeItem(`session_${state.user}`);
+            
+            const baseScore = state.correctCount * 10;
+            const bonusScore = state.streak * state.coeff;
+            const finalScore = baseScore + bonusScore;
+
+            document.getElementById('sb-base').textContent = baseScore;
+            document.getElementById('sb-bonus').textContent = `+${bonusScore}`;
+            document.getElementById('sb-total').textContent = `Total: ${finalScore}`;
+            document.getElementById('final-score-text').textContent = finalScore;
+
+            saveScore();
+            startConfetti();
+            document.getElementById('modal-gameover').style.display = 'flex';
         }
 
-        function saveGameData() {
-            const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-            if(!data[state.user]) data[state.user] = {};
+        function saveScore() {
+            const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+            if (!d[state.user]) d[state.user] = {};
+            const k = `${state.op}_${state.act}_${state.lvl}`;
+            const cur = d[state.user][k] || { best: 0, played: 0, totalScore: 0 };
+            const currentFinalScore = (state.correctCount * 10) + (state.streak * state.coeff);
             
-            const key = `${state.op}_${state.act}_${state.lvl}`;
-            if(!data[state.user][key]) data[state.user][key] = { best: 0, played: 0, totalScore: 0 };
-            
-            const entry = data[state.user][key];
-            entry.played++;
-            entry.totalScore += state.score;
-            if(state.score > entry.best) entry.best = state.score;
-            
-            localStorage.setItem(DB_KEY, JSON.stringify(data));
+            cur.played++; cur.totalScore += currentFinalScore; if (currentFinalScore > cur.best) cur.best = currentFinalScore;
+            d[state.user][k] = cur;
+            localStorage.setItem(DB_KEY, JSON.stringify(d));
         }
 
-        // --- STATS LOGIC ---
+        function switchUser() {
+            if (state.user) saveUser(state.user);
+            document.getElementById('inp-name').value = "";
+            renderUserList();
+            state.user = null;
+            showScreen('screen-login');
+        }
+
+        // --- SHOW STATS (CU FIX: Arata mesaj daca e gol) ---
         function showStats() {
-            const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-            const userStats = data[state.user];
-            const c = document.getElementById('stats-container');
-            const btnBack = document.getElementById('btn-stats-back');
-            const btnReset = document.getElementById('btn-stats-reset');
-            
-            c.innerHTML = '';
-
-            // CAZ: STATISTICI GOALE
-            if (!userStats || Object.keys(userStats).length === 0) {
-                btnBack.style.display = 'none';
-                btnReset.style.display = 'none';
-
-                c.innerHTML = `
-                    <div class="empty-state">
-                        <span class="emoji-huge">🏆</span>
-                        <div class="empty-text">Panoul tău de onoare este gol!</div>
-                        <div class="empty-sub">Joacă măcar un joc pentru a câștiga trofee.</div>
-                        <button class="btn btn-primary" onclick="showScreen('screen-menu')">🚀 HAI SĂ JUCĂM!</button>
-                    </div>
-                `;
-                showScreen('screen-stats');
-                return;
-            }
-
-            // CAZ: EXISTA DATE
-            btnBack.style.display = 'flex';
-            btnReset.style.display = 'flex';
-
-            const ops = {
-                'add': { name: 'Adunare', icon: '➕', color: 'add' },
-                'sub': { name: 'Scădere', icon: '➖', color: 'sub' },
-                'mul': { name: 'Înmulțire', icon: '✖️', color: 'mul' },
-                'mix': { name: 'Mixte', icon: '🎲', color: 'mix' }
-            };
-
-            for(let opKey in ops) {
-                let found = false;
-                const card = document.createElement('div');
-                card.className = `stat-card ${ops[opKey].color}`;
-                card.innerHTML = `<div class="op-title"><span>${ops[opKey].icon}</span><span>${ops[opKey].name}</span></div>`;
+            try {
+                if (!state.user) return alert("Te rugăm să te loghezi mai întâi!");
                 
-                const levelGrid = document.createElement('div');
-                levelGrid.className = 'level-grid';
+                const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+                const u = d[state.user];
+                const c = document.getElementById('stats-container');
+                c.innerHTML = '';
 
-                ['quiz', 'input', 'tf'].forEach(act => {
-                    ['easy', 'medium', 'hard'].forEach(lvl => {
-                        const key = `${opKey}_${act}_${lvl}`;
-                        if(userStats[key]) {
-                            found = true;
-                            const s = userStats[key];
-                            const badge = document.createElement('div');
-                            badge.className = 'level-badge';
-                            
-                            // Determinăm scorul max pentru progres bar
-                            let maxPossible = lvl === 'easy' ? 120 : (lvl === 'medium' ? 150 : 250);
-                            let progress = Math.min(100, (s.best / maxPossible) * 100);
+                // DACA NU EXISTA DATE (Gol)
+                if (!u || !Object.keys(u).length) {
+                    c.innerHTML = `
+                        <div class="empty-state" style="grid-column: span 2;">
+                            <span class="emoji-huge empty-icon">🏆</span>
+                            <div class="empty-text">Panoul tău de onoare este gol!</div>
+                            <div class="empty-sub">Trebuie să joci măcar un joc pentru a câștiga trofee.</div>
+                            <button class="btn btn-primary" onclick="showScreen('screen-menu')">🚀 Hai să jucăm!</button>
+                        </div>
+                    `;
+                    showScreen('screen-stats'); // IMPORTANT: Afișăm ecranul!
+                    return;
+                }
 
-                            badge.innerHTML = `
-                                <div class="lvl-name">${act} (${lvl})</div>
-                                <div class="lvl-score">${s.best}</div>
-                                <div class="lvl-max">/ ${maxPossible}</div>
-                                <div class="lvl-progress"><div class="lvl-bar-fill" style="width:${progress}%"></div></div>
-                                <div class="stats-info">Jucat de ${s.played} ori</div>
-                            `;
-                            levelGrid.appendChild(badge);
+                const maxScores = { 'easy': 120, 'medium': 140, 'hard': 160, 'mix': 150 };
+                const ops = {
+                    'add': { name: '➕ Adunare', icon: '🌿', color: '#48bb78', bg: '#f0fff4' },
+                    'sub': { name: '➖ Scădere', icon: '🌊', color: '#ed8936', bg: '#fffaf0' },
+                    'mul': { name: '✖️ Înmulțire', icon: '🎵', color: '#f56565', bg: '#fff5f5' },
+                    'mix': { name: '🎲 Mixte', icon: '🎨', color: '#667eea', bg: '#f3e7ff' }
+                };
+
+                for (let opKey in ops) {
+                    let found = false;
+                    for (let key in u) if (key.startsWith(opKey)) found = true;
+                    if (!found) continue;
+
+                    const card = document.createElement('div');
+                    card.className = `stat-card ${ops[opKey].color}`;
+                    card.innerHTML = `<div class="op-title"><span style="font-size: 1.5rem;">${ops[opKey].icon}</span><span>${ops[opKey].name}</span></div>`;
+
+                    ['quiz', 'input', 'tf'].forEach(act => {
+                        const levelDiv = document.createElement('div');
+                        levelDiv.style.cssText = "margin-bottom: 15px; border-bottom: 2px solid #f0f4f8; padding-bottom: 15px;";
+                        const levelGrid = document.createElement('div');
+                        levelGrid.className = 'level-grid';
+
+                        let hasData = false;
+                        ['easy', 'medium', 'hard', 'mix'].forEach(lvl => {
+                            const k = `${opKey}_${act}_${lvl}`;
+                            if (u[k] && u[k].played) {
+                                hasData = true;
+                                const data = u[k];
+                                const maxScore = maxScores[lvl];
+                                const width = Math.min(100, (data.best / maxScore) * 100);
+
+                                const badge = document.createElement('div');
+                                badge.className = `level-badge lvl-${lvl}`;
+                                badge.innerHTML = `
+                                    <div class="lvl-name">${lvl}</div>
+                                    <div class="lvl-score">${data.best}</div>
+                                    <div class="lvl-max">/ ${maxScore}</div>
+                                    <div class="lvl-progress"><div class="lvl-bar-fill" style="width:${width}%"></div></div>
+                                    <div class="stats-info">Jucat de ${data.played} ori</div>
+                                `;
+                                levelGrid.appendChild(badge);
+                            }
+                        });
+
+                        if (hasData) {
+                            const actTitle = document.createElement('div');
+                            actTitle.style.cssText = "font-weight:bold; color: #718096; margin: 10px 0 5px 0; font-size: 0.9rem; text-transform: uppercase;";
+                            actTitle.textContent = act === 'quiz' ? '⚡ VITEZĂ' : (act === 'input' ? '✍️ SCRIE' : '✔️ ADEVĂRAT/FALS');
+                            levelDiv.appendChild(actTitle);
+                            levelDiv.appendChild(levelGrid);
+                            card.appendChild(levelDiv);
                         }
                     });
-                });
-
-                if(found) {
-                    card.appendChild(levelGrid);
-                    c.appendChild(card);
+                    if (found) c.appendChild(card);
                 }
-            }
-            showScreen('screen-stats');
+                showScreen('screen-stats');
+            } catch (e) { console.error("Stats Error:", e); alert("Eroare statistici. Încearcă să ștergi cache-ul."); }
         }
 
-        function resetProgress() {
-            if(confirm("Ești sigur că vrei să ștergi TOT progresul tău? Această acțiune nu poate fi anulată!")) {
-                const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-                delete data[state.user];
-                localStorage.setItem(DB_KEY, JSON.stringify(data));
-                showStats();
-            }
-        }
-
-        function showHistoryModal() {
-            if(state.history.length === 0) return;
-            const body = document.getElementById('modal-body');
-            body.innerHTML = `
-                <h3>📝 Istoric Joc Curent</h3>
-                <div style="margin-bottom:20px;">
-                    ${state.history.map(item => `
-                        <div class="history-item ${item.win ? 'correct' : 'wrong'}">
-                            <span>${item.q} = ${item.ans}</span>
-                            <span>${item.win ? '✅' : '❌'}</span>
-                        </div>
-                    `).join('')}
-                </div>
-                <button class="btn btn-primary" onclick="hideModal()">ÎNCHIDE</button>
-            `;
-            showModal();
-        }
-
-        // --- VISUAL EFFECTS ---
-        function triggerConfetti() {
+        // --- CONFETTI EFFECT (Simple Implementation) ---
+        function startConfetti() {
             const canvas = document.getElementById('confetti-canvas');
             canvas.style.display = 'block';
             const ctx = canvas.getContext('2d');
@@ -820,8 +946,11 @@
                     ctx.fillStyle = p.color;
                     ctx.fillRect(p.x, p.y, p.size, p.size);
                 });
-                if(active) requestAnimationFrame(draw);
-                else canvas.style.display = 'none';
+                if(active && document.getElementById('modal-gameover').style.display !== 'none') {
+                    requestAnimationFrame(draw);
+                } else {
+                    canvas.style.display = 'none';
+                }
             }
             draw();
         }

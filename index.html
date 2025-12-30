@@ -2,13 +2,10 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#4fd1c5">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>MateGeniu - Clasa a II-a</title>
     <style>
+        /* --- FONT CU DIACRITICE --- */
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&subset=latin-ext&display=swap');
 
         :root {
@@ -43,305 +40,787 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* --- SCREENS --- */
-        .screen { display: none; padding: 20px; max-width: 650px; margin: 0 auto; width: 100%; flex-direction: column; align-items: center; padding-bottom: 80px; animation: fadeIn 0.3s ease; }
-        .screen.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        h1, h2 { text-align: center; margin: 10px 0; font-weight: 700; }
-        h1 { font-size: 2.2rem; color: var(--primary); }
-
-        /* --- BUTOANE --- */
-        .btn { 
-            background: var(--white); border: none; border-radius: var(--radius); padding: 20px; 
-            width: 100%; margin-bottom: 15px; font-size: 1.2rem; font-weight: 700; cursor: pointer; 
-            box-shadow: 0 5px 0 #cbd5e0; transition: transform 0.1s; display: flex; 
-            align-items: center; justify-content: center; gap: 12px; font-family: 'Quicksand', sans-serif;
+        .screen {
+            display: none;
+            padding: 20px;
+            max-width: 650px;
+            margin: 0 auto;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 80px;
+            animation: fadeIn 0.3s ease;
         }
-        .btn:active { transform: translateY(4px); box-shadow: none; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 0 #38b2ac; }
-        .btn-secondary { background: var(--secondary); color: white; box-shadow: 0 5px 0 #dd6b20; }
-        .btn-danger { background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; }
 
-        .btn-op { border-left: 15px solid #ccc; text-align: left; justify-content: flex-start; }
-        .btn-op.add { border-color: #48bb78; }
-        .btn-op.sub { border-color: #ed8936; }
-        .btn-op.mul { border-color: #f56565; }
-        .btn-op.mix { border-color: #667eea; }
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- UI ELEMENTS --- */
+        h1, h2 { text-align: center; margin: 10px 0 20px 0; font-weight: 700; }
+        h1 { font-size: 2.2rem; color: var(--primary); text-shadow: 2px 2px 0 rgba(0,0,0,0.05); }
+
+        .btn {
+            background: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            padding: 18px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #cbd5e0;
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'Quicksand', sans-serif;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #cbd5e0;
+        }
+
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 6px 0 #38b2ac; }
+        .btn-primary:active { box-shadow: 0 3px 0 #38b2ac; }
+
+        .btn-secondary { background: var(--secondary); color: white; box-shadow: 0 6px 0 #dd6b20; }
+        .btn-secondary:active { box-shadow: 0 3px 0 #dd6b20; }
+
+        .btn-danger { background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; box-shadow: 0 6px 0 #fed7d7; }
+
+        .btn-op { border-left: 15px solid #ccc; text-align: left; justify-content: flex-start; padding-left: 25px; }
+        .btn-op.add { border-left-color: #48bb78; }
+        .btn-op.sub { border-left-color: #ed8936; }
+        .btn-op.mul { border-left-color: #f56565; }
+        .btn-op.mix { border-left-color: #667eea; }
 
         /* --- GAME HUD --- */
-        .score-badge { background: white; padding: 12px 25px; border-radius: 50px; box-shadow: var(--shadow); font-weight: 800; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .question { font-size: 3.5rem; font-weight: 800; text-align: center; margin-bottom: 30px; }
-        .timer-container { width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-        .timer-bar { height: 100%; background: var(--primary); width: 100%; transition: width 0.1s linear; }
+        .hud-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .score-badge {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+            flex-grow: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .streak-container {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 90px;
+            justify-content: center;
+        }
+
+        .streak-val { font-weight: 800; color: var(--fire); font-size: 1.2rem; }
+
+        .question-card {
+            background: white;
+            width: 100%;
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-text { font-size: 3.5rem; font-weight: 800; color: var(--text); }
+
+        .streak-timer-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: #fed7aa;
+        }
+
+        .streak-timer-fill {
+            height: 100%;
+            background: var(--fire);
+            width: 100%;
+            transition: width 0.1s linear;
+        }
 
         /* --- CONTROLS --- */
-        .grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
-        .quiz-btn { height: 90px; font-size: 2.2rem; background: white; border-radius: var(--radius); border: none; font-weight: 800; box-shadow: 0 5px 0 #cbd5e0; cursor: pointer; font-family: 'Quicksand', sans-serif; }
-        
-        /* --- STATS CARDS --- */
-        .stats-grid { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .grid-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
+        .quiz-btn {
+            height: 90px;
+            font-size: 2.2rem;
+            background: white;
+            border-radius: 20px;
+            border: none;
+            font-weight: 800;
+            box-shadow: 0 6px 0 #cbd5e0;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text);
+            transition: all 0.1s;
+        }
+        .quiz-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #cbd5e0; }
+
+        /* INPUT MODE */
+        .input-display { font-size: 3rem; font-weight: 800; color: var(--primary); min-height: 4.5rem; margin-bottom: 20px; border-bottom: 4px dashed #cbd5e0; padding: 0 20px; }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; }
+        .key {
+            height: 65px;
+            background: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            box-shadow: 0 5px 0 #cbd5e0;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+        }
+        .key:active { transform: translateY(3px); box-shadow: 0 2px 0 #cbd5e0; }
+        .key-ok { background: var(--success); color: white; box-shadow: 0 5px 0 #2f855a; }
+
+        /* TRUE FALSE MODE */
+        .tf-container { display: flex; gap: 20px; width: 100%; }
+        .btn-tf { flex: 1; height: 120px; font-size: 3rem; }
+
+        /* --- PROGRESS DOTS --- */
+        .dots-container { display: flex; gap: 8px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; background: #cbd5e0; transition: all 0.3s; }
+        .dot.current { transform: scale(1.3); box-shadow: 0 0 10px rgba(0,0,0,0.1); border: 2px solid white; }
+        .dot.correct { background: var(--success); }
+        .dot.wrong { background: var(--accent); }
+
+        /* --- STATS --- */
+        .stats-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .stat-card { background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); border-top: 8px solid #ccc; }
-        .level-badge { background: #f7fafc; padding: 10px; border-radius: 15px; text-align: center; margin-top: 10px; }
-        
-        .empty-state { text-align: center; padding: 40px 20px; background: white; border-radius: 30px; box-shadow: var(--shadow); width: 100%; }
-        .empty-icon { font-size: 5rem; margin-bottom: 20px; display: block; }
+        .stat-card.add { border-top-color: #48bb78; }
+        .stat-card.sub { border-top-color: #ed8936; }
+        .stat-card.mul { border-top-color: #f56565; }
+        .stat-card.mix { border-top-color: #667eea; }
 
-        /* --- TOAST & MODALS --- */
-        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: white; padding: 25px; border-radius: 20px; font-weight: bold; font-size: 1.5rem; opacity: 0; pointer-events: none; transition: 0.2s; z-index: 1000; text-align: center; }
-        .toast.show { opacity: 1; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1100; padding: 20px; }
-        .modal-content { background: white; padding: 30px; border-radius: 30px; text-align: center; width: 100%; max-width: 500px; }
+        .op-title { font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text); }
+        .level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 5px; }
+        .level-badge {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        .lvl-name { font-size: 0.75rem; font-weight: 700; color: #718096; text-transform: uppercase; margin-bottom: 5px; }
+        .lvl-score { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+        .lvl-max { font-size: 0.8rem; color: #a0aec0; }
+        .lvl-progress { height: 4px; background: #edf2f7; width: 100%; margin-top: 8px; border-radius: 2px; }
+        .lvl-bar-fill { height: 100%; background: var(--primary); border-radius: 2px; }
+        .stats-info { font-size: 0.65rem; color: #a0aec0; margin-top: 5px; }
 
-        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1200; display: none; }
+        /* EMPTY STATE STATS */
+        .empty-state {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            width: 100%;
+        }
+        .emoji-huge { font-size: 5rem; display: block; margin-bottom: 15px; }
+        .empty-text { font-weight: 800; font-size: 1.4rem; color: var(--text); margin-bottom: 10px; }
+        .empty-sub { color: #718096; font-size: 1rem; margin-bottom: 25px; }
+
+        /* --- MODALS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 35px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: #f7fafc;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .history-item.correct { border-left: 5px solid var(--success); }
+        .history-item.wrong { border-left: 5px solid var(--accent); }
+
+        /* --- FEEDBACK --- */
+        #toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 25px 40px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 800;
+            font-size: 2rem;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1500;
+            display: none;
+        }
+
+        /* --- UTILS --- */
+        .mb-10 { margin-bottom: 10px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
+
     <canvas id="confetti-canvas"></canvas>
+    <div id="toast"></div>
 
     <div id="app">
         <div id="screen-login" class="screen active">
-            <h1>🧮 MateGeniu</h1>
-            <input type="text" id="inp-name" style="width:100%; padding:20px; font-size:1.4rem; border-radius:20px; border:3px solid #cbd5e0; text-align:center; margin-bottom:20px; font-family: 'Quicksand';" placeholder="Scrie numele tău..." onkeypress="if(event.key==='Enter') login()">
-            <button class="btn btn-primary" onclick="login()">⚡ INTRĂ ÎN JOC</button>
-            <div id="user-list" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px;"></div>
+            <div style="font-size: 5rem; margin-bottom: 10px;">🦊</div>
+            <h1>MateGeniu</h1>
+            <p style="text-align:center; font-weight:600; color:#718096; margin-bottom:30px;">Pregătit pentru aventură?</p>
+            
+            <input type="text" id="inp-name" 
+                style="width:100%; padding:20px; font-size:1.4rem; border-radius:20px; border:3px solid #cbd5e0; text-align:center; margin-bottom:20px; font-family: 'Quicksand', sans-serif;" 
+                placeholder="Cum te cheamă?"
+                onkeypress="if(event.key==='Enter') login()">
+            
+            <button class="btn btn-primary" onclick="login()">⚡ ÎNCEPE ACUM</button>
         </div>
 
         <div id="screen-menu" class="screen">
             <h1 id="greet">Salut! 🚀</h1>
-            <button class="btn btn-op add" onclick="selectOp('add')">➕ Adunare</button>
-            <button class="btn btn-op sub" onclick="selectOp('sub')">➖ Scădere</button>
-            <button class="btn btn-op mul" onclick="selectOp('mul')">✖️ Înmulțire</button>
-            <button class="btn btn-op mix" onclick="selectOp('mix')">🎲 Mixte</button>
+            <p style="text-align:center; color:#718096; margin-bottom:25px;">Ce exersăm astăzi?</p>
+            
+            <button class="btn btn-op add" onclick="selectOp('add')"><span>➕</span> Adunare</button>
+            <button class="btn btn-op sub" onclick="selectOp('sub')"><span>➖</span> Scădere</button>
+            <button class="btn btn-op mul" onclick="selectOp('mul')"><span>✖️</span> Înmulțire</button>
+            <button class="btn btn-op mix" onclick="selectOp('mix')"><span>🎲</span> Mixte</button>
+            
             <button class="btn" style="background:#edf2f7; margin-top:20px;" onclick="showStats()">📊 STATISTICI</button>
-            <button class="btn btn-danger" style="font-size:0.9rem; padding:10px;" onclick="location.reload()">🚪 Ieșire</button>
+            <button class="btn btn-danger" style="font-size:0.9rem; padding:10px; margin-top:10px;" onclick="logout()">🚪 Ieșire</button>
         </div>
 
-        <div id="screen-level" class="screen">
-            <h2>Alege dificultatea</h2>
-            <button class="btn" onclick="startGame('easy')">🟢 Ușor</button>
-            <button class="btn" onclick="startGame('medium')">🟡 Mediu</button>
-            <button class="btn" onclick="startGame('hard')">🔴 Avansat</button>
-            <button class="btn btn-secondary" onclick="showScreen('screen-menu')">⬅ ÎNAPOI</button>
+        <div id="screen-act" class="screen">
+            <h2>Alege cum vrei să răspunzi</h2>
+            <button class="btn" onclick="selectAct('quiz')">⚡ Viteză (4 variante)</button>
+            <button class="btn" onclick="selectAct('input')">✍️ Scrie răspunsul</button>
+            <button class="btn" onclick="selectAct('tf')">✔️ Adevărat / Fals</button>
+            
+            <button class="btn btn-secondary" style="margin-top:20px;" onclick="showScreen('screen-menu')">ÎNAPOI</button>
+        </div>
+
+        <div id="screen-lvl" class="screen">
+            <h2 id="lvl-title">Nivelul de dificultate</h2>
+            <button class="btn" onclick="startGame('easy')">🟢 Ușor (0-10)</button>
+            <button class="btn" onclick="startGame('medium')">🟡 Mediu (0-30)</button>
+            <button class="btn" onclick="startGame('hard')">🔴 Avansat (0-100)</button>
+            
+            <button class="btn btn-secondary" style="margin-top:20px;" onclick="showScreen('screen-act')">ÎNAPOI</button>
         </div>
 
         <div id="screen-game" class="screen">
-            <div class="timer-container"><div class="timer-bar" id="timer-bar"></div></div>
-            <div class="score-badge">⭐ Scor: <span id="g-score">0</span></div>
-            <div class="question" id="g-q">2 + 2 = ?</div>
-            <div id="g-controls" class="grid-4"></div>
+            <div class="hud-top">
+                <div class="score-badge" onclick="showHistoryModal()">⭐ Scor: <span id="g-score">0</span></div>
+                <div class="streak-container">
+                    <span>🔥</span>
+                    <span class="streak-val" id="g-streak">x0</span>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text" id="g-q">2 + 2 = ?</div>
+                <div class="streak-timer-line" id="st-line"><div class="streak-timer-fill" id="st-fill"></div></div>
+            </div>
+
+            <div id="g-ctrl" style="width:100%">
+                </div>
+
+            <div class="dots-container" id="g-dots"></div>
         </div>
 
         <div id="screen-stats" class="screen">
-            <h2 id="stats-title">📊 Tablou de Onoare</h2>
-            <div id="stats-container" class="stats-grid"></div>
-            <div id="stats-footer" style="width:100%; margin-top:20px;"></div>
+            <h1>📊 Tablou de Onoare</h1>
+            <div id="stats-container" class="stats-container"></div>
+            
+            <button id="btn-stats-back" class="btn btn-primary" onclick="showScreen('screen-menu')" style="margin-top:20px;">🏠 MERGI LA MENIU</button>
+            <button id="btn-stats-reset" class="btn btn-danger" onclick="resetProgress()">⚠️ ȘTERGE TOT PROGRESUL</button>
         </div>
     </div>
 
-    <div class="modal-overlay" id="modal-end">
-        <div class="modal-content">
-            <h2 style="font-size:3rem;">🏆</h2>
-            <h3>Bravo! Joc terminat!</h3>
-            <h1 id="final-score" style="font-size:3.5rem; color:var(--primary);">0</h1>
-            <p>Puncte obținute</p>
-            <button class="btn btn-primary" onclick="showStats(); closeModal();">📊 VEZI STATISTICI</button>
-            <button class="btn btn-secondary" onclick="showScreen('screen-menu'); closeModal();">🏠 MENIU</button>
-        </div>
+    <div class="modal-overlay" id="main-modal">
+        <div class="modal-content" id="modal-body">
+            </div>
     </div>
-
-    <div class="toast" id="toast">Corect! 🌟</div>
 
     <script>
-        const DB_KEY = 'MateGeniu_V2025';
-        let state = { user: '', op: '', lvl: '', score: 0, qIdx: 0, questions: [], timer: null };
+        const DB_KEY = 'MateGeniu_V2024_03';
+        let state = {
+            user: '',
+            op: '',
+            act: '',
+            lvl: '',
+            score: 0,
+            qIdx: 0,
+            questions: [],
+            history: [],
+            streak: 0,
+            streakTime: 5, // secunde pentru streak timer
+            timer: null,
+            inputVal: '',
+            dots: []
+        };
 
-        // --- LOGIN & UTILIZATORI ---
-        function login() {
-            const name = document.getElementById('inp-name').value.trim();
-            if(!name) return;
-            state.user = name;
-            saveRecentUser(name);
-            
-            const hr = new Date().getHours();
-            let greetText = hr < 12 ? "Bună dimineața" : (hr < 18 ? "Bună ziua" : "Bună seara");
-            document.getElementById('greet').textContent = `${greetText}, ${name}! 🚀`;
-            showScreen('screen-menu');
-        }
-
-        function saveRecentUser(name) {
-            let d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-            d.users = d.users || [];
-            if(!d.users.includes(name)) d.users.push(name);
-            localStorage.setItem(DB_KEY, JSON.stringify(d));
-        }
-
+        // --- UTILS ---
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
-        function closeModal() { document.getElementById('modal-end').style.display = 'none'; }
+        function showModal() { document.getElementById('main-modal').style.display = 'flex'; }
+        function hideModal() { document.getElementById('main-modal').style.display = 'none'; }
 
-        // --- LOGICA JOC ---
-        function selectOp(op) { state.op = op; showScreen('screen-level'); }
+        function showToast(msg, color) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.background = color;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 900);
+        }
+
+        // --- CORE LOGIC ---
+        function login() {
+            const name = document.getElementById('inp-name').value.trim();
+            if(!name) return;
+            state.user = name;
+            
+            // Salut dinamic
+            const hr = new Date().getHours();
+            let greet = "Bună!";
+            if(hr < 12) greet = "Bună dimineața";
+            else if(hr < 18) greet = "Bună ziua";
+            else greet = "Bună seara";
+            
+            document.getElementById('greet').textContent = `${greet}, ${name}! 🚀`;
+            showScreen('screen-menu');
+        }
+
+        function logout() {
+            document.getElementById('inp-name').value = '';
+            showScreen('screen-login');
+        }
+
+        function selectOp(op) { state.op = op; showScreen('screen-act'); }
+        function selectAct(act) { state.act = act; showScreen('screen-lvl'); }
 
         function startGame(lvl) {
-            state.lvl = lvl; state.score = 0; state.qIdx = 0;
-            state.questions = Array.from({length: 10}, () => generateQ(state.op, lvl));
+            state.lvl = lvl;
+            state.score = 0;
+            state.qIdx = 0;
+            state.history = [];
+            state.streak = 0;
+            state.dots = [];
+            
+            // Generăm 10 întrebări
+            state.questions = Array.from({length: 10}, () => generateQuestion());
+            
             showScreen('screen-game');
             loadQuestion();
         }
 
-        function generateQ(op, lvl) {
-            let n1, n2, ans, currentOp = op;
-            if(op === 'mix') currentOp = ['add', 'sub', 'mul'][Math.floor(Math.random()*3)];
-            let max = lvl === 'easy' ? 10 : (lvl === 'medium' ? 30 : 100);
+        function generateQuestion() {
+            let op = state.op;
+            if(op === 'mix') op = ['add', 'sub', 'mul'][Math.floor(Math.random() * 3)];
             
-            if(currentOp === 'mul') {
-                n1 = Math.floor(Math.random()*10); n2 = Math.floor(Math.random()*10);
-                ans = n1 * n2;
+            let n1, n2, ans;
+            let maxVal = state.lvl === 'easy' ? 10 : (state.lvl === 'medium' ? 30 : 100);
+
+            if(op === 'mul') {
+                n1 = Math.floor(Math.random() * 10);
+                n2 = Math.floor(Math.random() * 10);
             } else {
-                n1 = Math.floor(Math.random()*max); n2 = Math.floor(Math.random()*max);
-                if(currentOp === 'sub' && n1 < n2) [n1, n2] = [n2, n1];
-                ans = currentOp === 'add' ? n1 + n2 : n1 - n2;
+                n1 = Math.floor(Math.random() * maxVal);
+                n2 = Math.floor(Math.random() * maxVal);
+                if(op === 'sub' && n1 < n2) [n1, n2] = [n2, n1];
             }
-            return { n1, n2, ans, op: currentOp };
+
+            if(op === 'add') ans = n1 + n2;
+            else if(op === 'sub') ans = n1 - n2;
+            else ans = n1 * n2;
+
+            return { n1, n2, op, ans };
         }
 
         function loadQuestion() {
-            if(state.qIdx >= 10) return endGame();
-            const q = state.questions[state.qIdx];
-            const ops = { add: '+', sub: '-', mul: '×' };
-            document.getElementById('g-q').textContent = `${q.n1} ${ops[q.op]} ${q.n2} = ?`;
-            document.getElementById('g-score').textContent = state.score;
+            if(state.qIdx >= 10) return finishGame();
             
-            const ctrl = document.getElementById('g-controls');
-            ctrl.innerHTML = '';
-            let choices = [q.ans];
-            while(choices.length < 4) {
-                let r = q.ans + Math.floor(Math.random()*10) - 5;
-                if(r >= 0 && !choices.includes(r)) choices.push(r);
-            }
-            choices.sort(() => Math.random() - 0.5).forEach(c => {
-                const b = document.createElement('button');
-                b.className = 'quiz-btn'; b.textContent = c;
-                b.onclick = () => checkAns(c);
-                ctrl.appendChild(b);
-            });
+            const q = state.questions[state.qIdx];
+            const opSym = { 'add': '+', 'sub': '-', 'mul': '×' }[q.op];
+            
+            // Update HUD
+            document.getElementById('g-score').textContent = state.score;
+            document.getElementById('g-streak').textContent = `x${state.streak}`;
+            renderDots();
 
-            startTimer();
+            // Setup Timer vizibilitate
+            document.getElementById('st-line').style.display = (state.act === 'input' ? 'none' : 'block');
+
+            const ctrl = document.getElementById('g-ctrl');
+            ctrl.innerHTML = '';
+            state.inputVal = '';
+
+            // Setup Question Text & Controls
+            if(state.act === 'tf') {
+                const isCorrectVal = Math.random() > 0.5;
+                const displayAns = isCorrectVal ? q.ans : q.ans + (Math.floor(Math.random() * 5) + (Math.random() > 0.5 ? 1 : -1));
+                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ${Math.max(0, displayAns)}`;
+                
+                ctrl.innerHTML = `
+                    <div class="tf-container">
+                        <button class="btn btn-tf" style="background:#c6f6d5; box-shadow:0 6px 0 #9ae6b4;" onclick="checkAnswer(true === ${isCorrectVal})">✔️</button>
+                        <button class="btn btn-tf" style="background:#fed7d7; box-shadow:0 6px 0 #feb2b2;" onclick="checkAnswer(false === ${isCorrectVal})">❌</button>
+                    </div>
+                `;
+            } 
+            else if(state.act === 'quiz') {
+                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ?`;
+                let options = [q.ans];
+                while(options.length < 4) {
+                    let r = q.ans + (Math.floor(Math.random() * 10) - 5);
+                    if(r >= 0 && !options.includes(r)) options.push(r);
+                }
+                options.sort(() => Math.random() - 0.5);
+                
+                let grid = document.createElement('div');
+                grid.className = 'grid-answers';
+                options.forEach(opt => {
+                    const b = document.createElement('button');
+                    b.className = 'quiz-btn';
+                    b.textContent = opt;
+                    b.onclick = () => checkAnswer(opt === q.ans);
+                    grid.appendChild(b);
+                });
+                ctrl.appendChild(grid);
+            }
+            else { // INPUT MODE
+                document.getElementById('g-q').textContent = `${q.n1} ${opSym} ${q.n2} = ?`;
+                ctrl.innerHTML = `
+                    <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div class="input-display" id="in-val">?</div>
+                        <div class="keypad">
+                            ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" onclick="pressKey('${n}')">${n}</button>`).join('')}
+                            <button class="key" style="color:var(--accent)" onclick="pressKey('C')">C</button>
+                            <button class="key" onclick="pressKey('0')">0</button>
+                            <button class="key key-ok" onclick="pressKey('OK')">OK</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if(state.act !== 'input') startStreakTimer();
         }
 
-        function startTimer() {
+        function pressKey(k) {
+            const disp = document.getElementById('in-val');
+            if(k === 'C') state.inputVal = '';
+            else if(k === 'OK') {
+                if(state.inputVal === '') return;
+                checkAnswer(parseInt(state.inputVal) === state.questions[state.qIdx].ans);
+                return;
+            } else {
+                if(state.inputVal.length < 3) state.inputVal += k;
+            }
+            disp.textContent = state.inputVal || '?';
+        }
+
+        function startStreakTimer() {
             if(state.timer) clearInterval(state.timer);
-            let time = 10;
-            const bar = document.getElementById('timer-bar');
+            let time = 5;
+            const bar = document.getElementById('st-fill');
+            bar.style.width = '100%';
+            
             state.timer = setInterval(() => {
                 time -= 0.1;
-                bar.style.width = (time * 10) + '%';
-                if(time <= 0) { clearInterval(state.timer); checkAns(-1); }
+                bar.style.width = (time * 20) + '%';
+                if(time <= 0) {
+                    state.streak = 0;
+                    document.getElementById('g-streak').textContent = 'x0';
+                    clearInterval(state.timer);
+                }
             }, 100);
         }
 
-        function checkAns(val) {
+        function checkAnswer(isWin) {
             clearInterval(state.timer);
-            const correct = val === state.questions[state.qIdx].ans;
-            const t = document.getElementById('toast');
-            if(correct) {
-                state.score += 10;
-                t.textContent = "Corect! 🌟"; t.style.background = "#48bb78";
+            const q = state.questions[state.qIdx];
+            
+            state.history.push({ q: `${q.n1} ${q.op==='add'?'+':q.op==='sub'?'-':'×'} ${q.n2}`, ans: q.ans, win: isWin });
+            state.dots.push(isWin);
+
+            if(isWin) {
+                state.streak++;
+                state.score += (10 * state.streak);
+                showToast("Corect! 🌟", "#48bb78");
             } else {
-                t.textContent = val === -1 ? "Timpul a expirat! ⏰" : "Ups! Greșit ❌";
-                t.style.background = "#fc8181";
+                state.streak = 0;
+                showToast("Greșit! ❌", "#fc8181");
             }
-            t.classList.add('show');
+
             setTimeout(() => {
-                t.classList.remove('show');
                 state.qIdx++;
                 loadQuestion();
             }, 1000);
         }
 
-        function endGame() {
-            saveScore();
-            document.getElementById('final-score').textContent = state.score;
-            document.getElementById('modal-end').style.display = 'flex';
-            if(state.score > 50) startConfetti();
-        }
-
-        function saveScore() {
-            let d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-            if(!d[state.user]) d[state.user] = {};
-            const key = `${state.op}_${state.lvl}`;
-            d[state.user][key] = Math.max(d[state.user][key] || 0, state.score);
-            localStorage.setItem(DB_KEY, JSON.stringify(d));
-        }
-
-        // --- STATISTICI ---
-        function showStats() {
-            const container = document.getElementById('stats-container');
-            const footer = document.getElementById('stats-footer');
-            const d = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
-            const uData = d[state.user] || {};
-            
+        function renderDots() {
+            const container = document.getElementById('g-dots');
             container.innerHTML = '';
-            footer.innerHTML = '';
+            for(let i=0; i<10; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if(i === state.qIdx) dot.classList.add('current');
+                if(state.dots[i] === true) dot.classList.add('correct');
+                else if(state.dots[i] === false) dot.classList.add('wrong');
+                container.appendChild(dot);
+            }
+        }
 
-            const keys = Object.keys(uData);
+        function finishGame() {
+            saveGameData();
+            const body = document.getElementById('modal-body');
+            body.innerHTML = `
+                <div style="font-size: 4rem;">🏆</div>
+                <h2>Bravo, ${state.user}!</h2>
+                <div style="font-size: 1.2rem; margin-bottom: 20px;">Ai terminat jocul cu un scor de:</div>
+                <div style="font-size: 3.5rem; font-weight: 800; color: var(--primary); margin-bottom: 30px;">${state.score}</div>
+                
+                <button class="btn btn-primary" onclick="hideModal(); showStats();">📊 VEZI STATISTICI</button>
+                <button class="btn btn-secondary" onclick="hideModal(); showScreen('screen-menu')">🏠 MENIU PRINCIPAL</button>
+            `;
+            showModal();
+            if(state.score > 50) triggerConfetti();
+        }
 
-            if(keys.length === 0) {
-                // Dacă e gol, apare DOAR butonul mare
-                container.innerHTML = `
+        function saveGameData() {
+            const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+            if(!data[state.user]) data[state.user] = {};
+            
+            const key = `${state.op}_${state.act}_${state.lvl}`;
+            if(!data[state.user][key]) data[state.user][key] = { best: 0, played: 0, totalScore: 0 };
+            
+            const entry = data[state.user][key];
+            entry.played++;
+            entry.totalScore += state.score;
+            if(state.score > entry.best) entry.best = state.score;
+            
+            localStorage.setItem(DB_KEY, JSON.stringify(data));
+        }
+
+        // --- STATS LOGIC ---
+        function showStats() {
+            const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+            const userStats = data[state.user];
+            const c = document.getElementById('stats-container');
+            const btnBack = document.getElementById('btn-stats-back');
+            const btnReset = document.getElementById('btn-stats-reset');
+            
+            c.innerHTML = '';
+
+            // CAZ: STATISTICI GOALE
+            if (!userStats || Object.keys(userStats).length === 0) {
+                btnBack.style.display = 'none';
+                btnReset.style.display = 'none';
+
+                c.innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">📔</span>
-                        <h2>Albumul tău e gol!</h2>
-                        <p>Trebuie să joci cel puțin un joc pentru a câștiga puncte și trofee.</p>
-                        <button class="btn btn-primary" onclick="showScreen('screen-menu')">⚡ HAI SĂ JUCĂM!</button>
+                        <span class="emoji-huge">🏆</span>
+                        <div class="empty-text">Panoul tău de onoare este gol!</div>
+                        <div class="empty-sub">Joacă măcar un joc pentru a câștiga trofee.</div>
+                        <button class="btn btn-primary" onclick="showScreen('screen-menu')">🚀 HAI SĂ JUCĂM!</button>
                     </div>
                 `;
-                document.getElementById('stats-title').style.display = 'none';
-            } else {
-                // Dacă are date, apare titlul, cardurile și butonul normal de revenire jos
-                document.getElementById('stats-title').style.display = 'block';
-                keys.forEach(k => {
-                    const [op, lvl] = k.split('_');
-                    const card = document.createElement('div');
-                    card.className = 'stat-card';
-                    card.style.borderColor = op === 'add' ? '#48bb78' : (op === 'sub' ? '#ed8936' : '#f56565');
-                    card.innerHTML = `
-                        <strong>${op.toUpperCase()} (${lvl})</strong>
-                        <div class="level-badge">Cel mai bun scor: <b>${uData[k]} pct</b></div>
-                    `;
-                    container.appendChild(card);
+                showScreen('screen-stats');
+                return;
+            }
+
+            // CAZ: EXISTA DATE
+            btnBack.style.display = 'flex';
+            btnReset.style.display = 'flex';
+
+            const ops = {
+                'add': { name: 'Adunare', icon: '➕', color: 'add' },
+                'sub': { name: 'Scădere', icon: '➖', color: 'sub' },
+                'mul': { name: 'Înmulțire', icon: '✖️', color: 'mul' },
+                'mix': { name: 'Mixte', icon: '🎲', color: 'mix' }
+            };
+
+            for(let opKey in ops) {
+                let found = false;
+                const card = document.createElement('div');
+                card.className = `stat-card ${ops[opKey].color}`;
+                card.innerHTML = `<div class="op-title"><span>${ops[opKey].icon}</span><span>${ops[opKey].name}</span></div>`;
+                
+                const levelGrid = document.createElement('div');
+                levelGrid.className = 'level-grid';
+
+                ['quiz', 'input', 'tf'].forEach(act => {
+                    ['easy', 'medium', 'hard'].forEach(lvl => {
+                        const key = `${opKey}_${act}_${lvl}`;
+                        if(userStats[key]) {
+                            found = true;
+                            const s = userStats[key];
+                            const badge = document.createElement('div');
+                            badge.className = 'level-badge';
+                            
+                            // Determinăm scorul max pentru progres bar
+                            let maxPossible = lvl === 'easy' ? 120 : (lvl === 'medium' ? 150 : 250);
+                            let progress = Math.min(100, (s.best / maxPossible) * 100);
+
+                            badge.innerHTML = `
+                                <div class="lvl-name">${act} (${lvl})</div>
+                                <div class="lvl-score">${s.best}</div>
+                                <div class="lvl-max">/ ${maxPossible}</div>
+                                <div class="lvl-progress"><div class="lvl-bar-fill" style="width:${progress}%"></div></div>
+                                <div class="stats-info">Jucat de ${s.played} ori</div>
+                            `;
+                            levelGrid.appendChild(badge);
+                        }
+                    });
                 });
-                // Injectăm butonul de revenire doar în acest caz
-                footer.innerHTML = `<button class="btn btn-secondary" onclick="showScreen('screen-menu')">⬅ ÎNAPOI LA MENIU</button>`;
+
+                if(found) {
+                    card.appendChild(levelGrid);
+                    c.appendChild(card);
+                }
             }
             showScreen('screen-stats');
         }
 
-        // --- CONFETTI ---
-        function startConfetti() {
+        function resetProgress() {
+            if(confirm("Ești sigur că vrei să ștergi TOT progresul tău? Această acțiune nu poate fi anulată!")) {
+                const data = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+                delete data[state.user];
+                localStorage.setItem(DB_KEY, JSON.stringify(data));
+                showStats();
+            }
+        }
+
+        function showHistoryModal() {
+            if(state.history.length === 0) return;
+            const body = document.getElementById('modal-body');
+            body.innerHTML = `
+                <h3>📝 Istoric Joc Curent</h3>
+                <div style="margin-bottom:20px;">
+                    ${state.history.map(item => `
+                        <div class="history-item ${item.win ? 'correct' : 'wrong'}">
+                            <span>${item.q} = ${item.ans}</span>
+                            <span>${item.win ? '✅' : '❌'}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-primary" onclick="hideModal()">ÎNCHIDE</button>
+            `;
+            showModal();
+        }
+
+        // --- VISUAL EFFECTS ---
+        function triggerConfetti() {
             const canvas = document.getElementById('confetti-canvas');
             canvas.style.display = 'block';
             const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            let particles = Array.from({length: 100}, () => ({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
-                vx: Math.random() * 4 - 2, vy: Math.random() * 4 + 2,
-                c: ['#4fd1c5','#f6ad55','#fc8181','#48bb78'][Math.floor(Math.random()*4)],
-                s: Math.random() * 8 + 4
-            }));
-            function draw() {
-                ctx.clearRect(0,0,canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.x += p.vx; p.y += p.vy;
-                    ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#f56565', '#48bb78', '#4fd1c5', '#ecc94b', '#9f7aea', '#ed8936'];
+            
+            for(let i=0; i<100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 10 + 5
                 });
-                if(particles[0].y < canvas.height) requestAnimationFrame(draw);
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let active = false;
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if(p.y < canvas.height) active = true;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                });
+                if(active) requestAnimationFrame(draw);
                 else canvas.style.display = 'none';
             }
             draw();
